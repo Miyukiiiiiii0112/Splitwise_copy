@@ -14,9 +14,11 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 export default function SettledButton({ isSettled, expenses }: { isSettled: boolean, expenses: any[] }) {
     const supabase = createClient();
+    const router = useRouter();
     const totalPrice = expenses.reduce((sum, expense) => sum + expense.amount, 0);
     const miyukiShouldPay = expenses
         .reduce((sum, expense) => {
@@ -45,6 +47,7 @@ export default function SettledButton({ isSettled, expenses }: { isSettled: bool
             toast.error("Failed to settle expenses:" + error.message);
         } else {
             toast.success("Expenses settled successfully.");
+            router.refresh();
         }
     };
 
