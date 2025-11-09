@@ -2,6 +2,7 @@
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
 import { useState } from "react";
+import { Button } from "@/components/ui/button"
 import {
     Select,
     SelectContent,
@@ -9,6 +10,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
+import { createClient } from "@/utils/supabase/client";
 const NewExpensePage = () => {
     const [amount, setAmount] = useState<number | "">("");
     const [title, setTitle] = useState<string>("");
@@ -31,6 +33,17 @@ const NewExpensePage = () => {
             setRatio(value);
         }
     }
+    const supabase = createClient();
+    const handleSubmit = async () => {
+        supabase.from("expense").insert({
+            title: title,
+            amount: amount,
+            ratio: ratio / 100,
+            paid_by: paidBy,
+        }).then((response) => {
+            console.log(response);
+        });
+    }
 
     return (
         <div className="flex justify-center items-center min-h-screen">
@@ -39,7 +52,7 @@ const NewExpensePage = () => {
                 <Input id="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
                 <Label htmlFor="amount">Amount</Label>
                 <Input id="amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value ? parseFloat(e.target.value) : "")} />
-                <Label htmlFor="ratio">Ratio</Label>
+                <Label htmlFor="ratio">Percentage</Label>
                 <Input id="ratio" type="number" value={ratio} onChange={(e) => handleRatioChange(e)} />
                 <Label htmlFor="paidBy">Paid By</Label>
                 <Select value={paidBy} onValueChange={(value: "shogo" | "miyuki") => setPaidBy(value)}>
@@ -51,6 +64,7 @@ const NewExpensePage = () => {
                         <SelectItem value="miyuki">Miyuki</SelectItem>
                     </SelectContent>
                 </Select>
+                <Button type="submit" onClick={() => { handleSubmit() }}>Submit</Button>
             </div>
         </div>
     );
