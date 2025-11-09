@@ -10,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import SettledButton from "@/components/ui/settledbutton";
+import { DeleteExpenseButton } from "@/components/ui/deleteExpenseButton";
 
 
 export default async function Home({
@@ -55,7 +56,7 @@ export default async function Home({
             <TableHead>Amount</TableHead>
             <TableHead>Ratio</TableHead>
             <TableHead>Paid By</TableHead>
-            <TableHead className="hidden md:block">Status</TableHead>
+            <TableHead>Delete</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -65,15 +66,12 @@ export default async function Home({
               <TableCell>{expense.amount}</TableCell>
               <TableCell>{expense.ratio}</TableCell>
               <TableCell>{expense.paid_by}</TableCell>
-              <TableCell className="hidden md:block">
-                <span className={`px-2 py-1 rounded-full text-sm ${expense.is_settled ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
-                  {expense.is_settled ? "Settled" : "Unsettled"}
-                </span>
+              <TableCell><DeleteExpenseButton expenseId={expense.id} />
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-    </div>
+    </div >
   );
 }
