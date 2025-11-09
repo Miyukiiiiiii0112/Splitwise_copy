@@ -50,10 +50,10 @@ export default function SettledButton({ isSettled, expenses }: { isSettled: bool
 
     return (
         !isSettled ? (
-            <>
-                <span>Total: {totalPrice}</span>
-                <span>Miyuki Should Pay: {miyukiShouldPay}</span>
-                <span>Miyuki Actually Pays: {miyukiActuallyPays}</span>
+            <div className="flex items-center space-x-4">
+                <span className="hidden md:block">Total: {totalPrice}</span>
+                <span className="hidden md:block">Miyuki Should Pay: {miyukiShouldPay}</span>
+                <span className="hidden md:block">Miyuki Actually Pays: {miyukiActuallyPays}</span>
                 <AlertDialog>
                     <AlertDialogTrigger asChild><Button>Settle</Button></AlertDialogTrigger>
                     <AlertDialogContent>
@@ -69,7 +69,7 @@ export default function SettledButton({ isSettled, expenses }: { isSettled: bool
                         </AlertDialogFooter>
                     </AlertDialogContent>
                 </AlertDialog>
-            </>
+            </div>
         ) : (
             null
         )

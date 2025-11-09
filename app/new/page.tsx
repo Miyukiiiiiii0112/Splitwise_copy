@@ -15,7 +15,7 @@ import { toast } from "sonner";
 const NewExpensePage = () => {
     const [amount, setAmount] = useState<number | "">("");
     const [title, setTitle] = useState<string>("");
-    const [ratio, setRatio] = useState<number>(0);
+    const [ratio, setRatio] = useState<number>(50);
     const [paidBy, setPaidBy] = useState<"shogo" | "miyuki">("shogo");
 
     const handleRatioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,12 +58,12 @@ const NewExpensePage = () => {
     const resetForm = () => {
         setTitle("");
         setAmount("");
-        setRatio(0);
+        setRatio(50);
         setPaidBy("shogo");
     }
 
     return (
-        <div className="flex justify-center items-center min-h-screen">
+        <div className="flex justify-center items-center mt-8">
             <div className="bg-white p-8 rounded-lg shadow-md w-96 space-y-4">
                 <Label htmlFor="title">Title</Label>
                 <Input id="title" type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
