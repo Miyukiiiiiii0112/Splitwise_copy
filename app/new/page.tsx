@@ -11,6 +11,7 @@ import {
     SelectValue,
 } from "@/components/ui/select"
 import { createClient } from "@/utils/supabase/client";
+import { toast } from "sonner";
 const NewExpensePage = () => {
     const [amount, setAmount] = useState<number | "">("");
     const [title, setTitle] = useState<string>("");
@@ -35,14 +36,30 @@ const NewExpensePage = () => {
     }
     const supabase = createClient();
     const handleSubmit = async () => {
-        supabase.from("expense").insert({
+        if (title.trim() === "" || amount === "") {
+            toast("Please enter something.");
+            return;
+        }
+        const { error } = await supabase.from("expense").insert({
             title: title,
             amount: amount,
             ratio: ratio / 100,
             paid_by: paidBy,
-        }).then((response) => {
-            console.log(response);
-        });
+        })
+        if (error) {
+            toast.error("Failed to add expense.");
+            console.error(error);
+        } else {
+            toast.success("Expense added successfully!");
+            resetForm();
+        }
+    }
+
+    const resetForm = () => {
+        setTitle("");
+        setAmount("");
+        setRatio(0);
+        setPaidBy("shogo");
     }
 
     return (
